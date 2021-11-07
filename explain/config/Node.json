@@ -1,0 +1,478 @@
+{
+  "apiVersion": {
+    "info": "   apiVersion\t\u003cstring\u003e",
+    "desc": "     APIVersion defines the versioned schema of this representation of an\n     object. Servers should convert recognized schemas to the latest internal\n     value, and may reject unrecognized values. More info:\n     https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources\n"
+  },
+  "kind": {
+    "info": "   kind\t\u003cstring\u003e",
+    "desc": "     Kind is a string value representing the REST resource this object\n     represents. Servers may infer this from the endpoint the client submits\n     requests to. Cannot be updated. In CamelCase. More info:\n     https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds\n"
+  },
+  "metadata": {
+    "info": "   metadata\t\u003cObject\u003e",
+    "desc": "     Standard object\u0027s metadata. More info:\n     https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata\n",
+    "child": {
+      "annotations": {
+        "info": "   annotations\t\u003cmap[string]string\u003e",
+        "desc": "     Annotations is an unstructured key value map stored with a resource that\n     may be set by external tools to store and retrieve arbitrary metadata. They\n     are not queryable and should be preserved when modifying objects. More\n     info: http://kubernetes.io/docs/user-guide/annotations\n"
+      },
+      "clusterName": {
+        "info": "   clusterName\t\u003cstring\u003e",
+        "desc": "     The name of the cluster which the object belongs to. This is used to\n     distinguish resources with same name and namespace in different clusters.\n     This field is not set anywhere right now and apiserver is going to ignore\n     it if set in create or update request.\n"
+      },
+      "creationTimestamp": {
+        "info": "   creationTimestamp\t\u003cstring\u003e",
+        "desc": "     CreationTimestamp is a timestamp representing the server time when this\n     object was created. It is not guaranteed to be set in happens-before order\n     across separate operations. Clients may not set this value. It is\n     represented in RFC3339 form and is in UTC.\n     Populated by the system. Read-only. Null for lists. More info:\n     https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata\n"
+      },
+      "deletionGracePeriodSeconds": {
+        "info": "   deletionGracePeriodSeconds\t\u003cinteger\u003e",
+        "desc": "     Number of seconds allowed for this object to gracefully terminate before it\n     will be removed from the system. Only set when deletionTimestamp is also\n     set. May only be shortened. Read-only.\n"
+      },
+      "deletionTimestamp": {
+        "info": "   deletionTimestamp\t\u003cstring\u003e",
+        "desc": "     DeletionTimestamp is RFC 3339 date and time at which this resource will be\n     deleted. This field is set by the server when a graceful deletion is\n     requested by the user, and is not directly settable by a client. The\n     resource is expected to be deleted (no longer visible from resource lists,\n     and not reachable by name) after the time in this field, once the\n     finalizers list is empty. As long as the finalizers list contains items,\n     deletion is blocked. Once the deletionTimestamp is set, this value may not\n     be unset or be set further into the future, although it may be shortened or\n     the resource may be deleted prior to this time. For example, a user may\n     request that a pod is deleted in 30 seconds. The Kubelet will react by\n     sending a graceful termination signal to the containers in the pod. After\n     that 30 seconds, the Kubelet will send a hard termination signal (SIGKILL)\n     to the container and after cleanup, remove the pod from the API. In the\n     presence of network partitions, this object may still exist after this\n     timestamp, until an administrator or automated process can determine the\n     resource is fully terminated. If not set, graceful deletion of the object\n     has not been requested.\n     Populated by the system when a graceful deletion is requested. Read-only.\n     More info:\n     https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata\n"
+      },
+      "finalizers": {
+        "info": "   finalizers\t\u003c[]string\u003e",
+        "desc": "     Must be empty before the object is deleted from the registry. Each entry is\n     an identifier for the responsible component that will remove the entry from\n     the list. If the deletionTimestamp of the object is non-nil, entries in\n     this list can only be removed. Finalizers may be processed and removed in\n     any order. Order is NOT enforced because it introduces significant risk of\n     stuck finalizers. finalizers is a shared field, any actor with permission\n     can reorder it. If the finalizer list is processed in order, then this can\n     lead to a situation in which the component responsible for the first\n     finalizer in the list is waiting for a signal (field value, external\n     system, or other) produced by a component responsible for a finalizer later\n     in the list, resulting in a deadlock. Without enforced ordering finalizers\n     are free to order amongst themselves and are not vulnerable to ordering\n     changes in the list.\n"
+      },
+      "generateName": {
+        "info": "   generateName\t\u003cstring\u003e",
+        "desc": "     GenerateName is an optional prefix, used by the server, to generate a\n     unique name ONLY IF the Name field has not been provided. If this field is\n     used, the name returned to the client will be different than the name\n     passed. This value will also be combined with a unique suffix. The provided\n     value has the same validation rules as the Name field, and may be truncated\n     by the length of the suffix required to make the value unique on the\n     server.\n     If this field is specified and the generated name exists, the server will\n     NOT return a 409 - instead, it will either return 201 Created or 500 with\n     Reason ServerTimeout indicating a unique name could not be found in the\n     time allotted, and the client should retry (optionally after the time\n     indicated in the Retry-After header).\n     Applied only if Name is not specified. More info:\n     https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#idempotency\n"
+      },
+      "generation": {
+        "info": "   generation\t\u003cinteger\u003e",
+        "desc": "     Populated by the system. Read-only.\n"
+      },
+      "labels": {
+        "info": "   labels\t\u003cmap[string]string\u003e",
+        "desc": "     Map of string keys and values that can be used to organize and categorize\n     and services. More info: http://kubernetes.io/docs/user-guide/labels\n"
+      },
+      "managedFields": {
+        "info": "   managedFields\t\u003c[]Object\u003e",
+        "desc": "     ManagedFields maps workflow-id and version to the set of fields that are\n     managed by that workflow. This is mostly for internal housekeeping, and\n     users typically shouldn\u0027t need to set or understand this field. A workflow\n     can be the user\u0027s name, a controller\u0027s name, or the name of a specific\n     apply path like \"ci-cd\". The set of fields is always in the version that\n     the workflow used when modifying the object.\n",
+        "child": {
+          "apiVersion": {
+            "info": "   apiVersion\t\u003cstring\u003e",
+            "desc": "     APIVersion defines the version of this resource that this field set applies\n     to. The format is \"group/version\" just like the top-level APIVersion field.\n     It is necessary to track the version of a field set because it cannot be\n     automatically converted.\n"
+          },
+          "fieldsType": {
+            "info": "   fieldsType\t\u003cstring\u003e",
+            "desc": "     FieldsType is the discriminator for the different fields format and\n     version. There is currently only one possible value: \"FieldsV1\"\n"
+          },
+          "fieldsV1": {
+            "info": "   fieldsV1\t\u003cmap[string]\u003e",
+            "desc": "     FieldsV1 holds the first JSON version format as described in the \"FieldsV1\"\n     type.\n"
+          },
+          "manager": {
+            "info": "   manager\t\u003cstring\u003e",
+            "desc": "     Manager is an identifier of the workflow managing these fields.\n"
+          },
+          "operation": {
+            "info": "   operation\t\u003cstring\u003e",
+            "desc": "     Operation is the type of operation which lead to this ManagedFieldsEntry\n     being created. The only valid values for this field are \u0027Apply\u0027 and\n"
+          },
+          "subresource": {
+            "info": "   subresource\t\u003cstring\u003e",
+            "desc": "     Subresource is the name of the subresource used to update that object, or\n     empty string if the object was updated through the main resource. The value\n     of this field is used to distinguish between managers, even if they share\n     the same name. For example, a status update will be distinct from a regular\n     update using the same manager name. Note that the APIVersion field is not\n     related to the Subresource field and it always corresponds to the version\n     of the main resource.\n"
+          },
+          "time": {
+            "info": "   time\t\u003cstring\u003e",
+            "desc": "     Time is timestamp of when these fields were set. It should always be empty\n     if Operation is \u0027Apply\u0027\n"
+          }
+        }
+      },
+      "name": {
+        "info": "   name\t\u003cstring\u003e",
+        "desc": "     Name must be unique within a namespace. Is required when creating\n     resources, although some resources may allow a client to request the\n     generation of an appropriate name automatically. Name is primarily intended\n     for creation idempotence and configuration definition. Cannot be updated.\n     More info: http://kubernetes.io/docs/user-guide/identifiers#names\n"
+      },
+      "namespace": {
+        "info": "   namespace\t\u003cstring\u003e",
+        "desc": "     Namespace defines the space within which each name must be unique. An empty\n     namespace is equivalent to the \"default\" namespace, but \"default\" is the\n     canonical representation. Not all objects are required to be scoped to a\n     namespace - the value of this field for those objects will be empty.\n     Must be a DNS_LABEL. Cannot be updated. More info:\n     http://kubernetes.io/docs/user-guide/namespaces\n"
+      },
+      "ownerReferences": {
+        "info": "   ownerReferences\t\u003c[]Object\u003e",
+        "desc": "     List of objects depended by this object. If ALL objects in the list have\n     been deleted, this object will be garbage collected. If this object is\n     managed by a controller, then an entry in this list will point to this\n     controller, with the controller field set to true. There cannot be more\n     than one managing controller.\n",
+        "child": {
+          "apiVersion": {
+            "info": "   apiVersion\t\u003cstring\u003e -required-",
+            "desc": "     API version of the referent.\n"
+          },
+          "blockOwnerDeletion": {
+            "info": "   blockOwnerDeletion\t\u003cboolean\u003e",
+            "desc": "     If true, AND if the owner has the \"foregroundDeletion\" finalizer, then the\n     owner cannot be deleted from the key-value store until this reference is\n     removed. Defaults to false. To set this field, a user needs \"delete\"\n     permission of the owner, otherwise 422 (Unprocessable Entity) will be\n     returned.\n"
+          },
+          "controller": {
+            "info": "   controller\t\u003cboolean\u003e",
+            "desc": "     If true, this reference points to the managing controller.\n"
+          },
+          "kind": {
+            "info": "   kind\t\u003cstring\u003e -required-",
+            "desc": "     Kind of the referent. More info:\n     https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds\n"
+          },
+          "name": {
+            "info": "   name\t\u003cstring\u003e -required-",
+            "desc": "     Name of the referent. More info:\n     http://kubernetes.io/docs/user-guide/identifiers#names\n"
+          },
+          "uid": {
+            "info": "   uid\t\u003cstring\u003e -required-",
+            "desc": "     UID of the referent. More info:\n     http://kubernetes.io/docs/user-guide/identifiers#uids\n"
+          }
+        }
+      },
+      "resourceVersion": {
+        "info": "   resourceVersion\t\u003cstring\u003e",
+        "desc": "     An opaque value that represents the internal version of this object that\n     can be used by clients to determine when objects have changed. May be used\n     for optimistic concurrency, change detection, and the watch operation on a\n     resource or set of resources. Clients must treat these values as opaque and\n     passed unmodified back to the server. They may only be valid for a\n     particular resource or set of resources.\n     Populated by the system. Read-only. Value must be treated as opaque by\n     clients and . More info:\n     https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency\n"
+      },
+      "selfLink": {
+        "info": "   selfLink\t\u003cstring\u003e",
+        "desc": "     SelfLink is a URL representing this object. Populated by the system.\n     Read-only.\n     DEPRECATED Kubernetes will stop propagating this field in 1.20 release and\n     the field is planned to be removed in 1.21 release.\n"
+      },
+      "uid": {
+        "info": "   uid\t\u003cstring\u003e",
+        "desc": "     UID is the unique in time and space value for this object. It is typically\n     generated by the server on successful creation of a resource and is not\n     allowed to change on PUT operations.\n     Populated by the system. Read-only. More info:\n     http://kubernetes.io/docs/user-guide/identifiers#uids\n"
+      }
+    }
+  },
+  "spec": {
+    "info": "   spec\t\u003cObject\u003e",
+    "desc": "     Spec defines the behavior of a node.\n     https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status\n",
+    "child": {
+      "configSource": {
+        "info": "   configSource\t\u003cObject\u003e",
+        "desc": "     Deprecated. If specified, the source of the node\u0027s configuration. The\n     DynamicKubeletConfig feature gate must be enabled for the Kubelet to use\n     this field. This field is deprecated as of 1.22:\n     https://git.k8s.io/enhancements/keps/sig-node/281-dynamic-kubelet-configuration\n",
+        "child": {
+          "configMap": {
+            "info": "   configMap\t\u003cObject\u003e",
+            "desc": "     ConfigMap is a reference to a Node\u0027s ConfigMap\n",
+            "child": {
+              "kubeletConfigKey": {
+                "info": "   kubeletConfigKey\t\u003cstring\u003e -required-",
+                "desc": "     KubeletConfigKey declares which key of the referenced ConfigMap corresponds\n     to the KubeletConfiguration structure This field is required in all cases.\n"
+              },
+              "name": {
+                "info": "   name\t\u003cstring\u003e -required-",
+                "desc": "     Name is the metadata.name of the referenced ConfigMap. This field is\n     required in all cases.\n"
+              },
+              "namespace": {
+                "info": "   namespace\t\u003cstring\u003e -required-",
+                "desc": "     Namespace is the metadata.namespace of the referenced ConfigMap. This field\n     is required in all cases.\n"
+              },
+              "resourceVersion": {
+                "info": "   resourceVersion\t\u003cstring\u003e",
+                "desc": "     ResourceVersion is the metadata.ResourceVersion of the referenced\n     ConfigMap. This field is forbidden in Node.Spec, and required in\n     Node.Status.\n"
+              },
+              "uid": {
+                "info": "   uid\t\u003cstring\u003e",
+                "desc": "     UID is the metadata.UID of the referenced ConfigMap. This field is\n     forbidden in Node.Spec, and required in Node.Status.\n"
+              }
+            }
+          }
+        }
+      },
+      "externalID": {
+        "info": "   externalID\t\u003cstring\u003e",
+        "desc": "     Deprecated. Not all kubelets will set this field. Remove field after 1.13.\n     see: https://issues.k8s.io/61966\n"
+      },
+      "podCIDR": {
+        "info": "   podCIDR\t\u003cstring\u003e",
+        "desc": "     PodCIDR represents the pod IP range assigned to the node.\n"
+      },
+      "podCIDRs": {
+        "info": "   podCIDRs\t\u003c[]string\u003e",
+        "desc": "     podCIDRs represents the IP ranges assigned to the node for usage by Pods on\n     that node. If this field is specified, the 0th entry must match the podCIDR\n     field. It may contain at most 1 value for each of IPv4 and IPv6.\n"
+      },
+      "providerID": {
+        "info": "   providerID\t\u003cstring\u003e",
+        "desc": "     ID of the node assigned by the cloud provider in the format:\n"
+      },
+      "taints": {
+        "info": "   taints\t\u003c[]Object\u003e",
+        "desc": "     If specified, the node\u0027s taints.\n",
+        "child": {
+          "effect": {
+            "info": "   effect\t\u003cstring\u003e -required-",
+            "desc": "     Required. The effect of the taint on pods that do not tolerate the taint.\n     Valid effects are NoSchedule, PreferNoSchedule and NoExecute.\n"
+          },
+          "key": {
+            "info": "   key\t\u003cstring\u003e -required-",
+            "desc": "     Required. The taint key to be applied to a node.\n"
+          },
+          "timeAdded": {
+            "info": "   timeAdded\t\u003cstring\u003e",
+            "desc": "     TimeAdded represents the time at which the taint was added. It is only\n     written for NoExecute taints.\n"
+          },
+          "value": {
+            "info": "   value\t\u003cstring\u003e",
+            "desc": "     The taint value corresponding to the taint key.\n"
+          }
+        }
+      },
+      "unschedulable": {
+        "info": "   unschedulable\t\u003cboolean\u003e",
+        "desc": "     Unschedulable controls node schedulability of new pods. By default, node is\n     schedulable. More info:\n     https://kubernetes.io/docs/concepts/nodes/node/#manual-node-administration\n"
+      }
+    }
+  },
+  "status": {
+    "info": "   status\t\u003cObject\u003e",
+    "desc": "     Most recently observed status of the node. Populated by the system.\n     Read-only. More info:\n     https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status\n",
+    "child": {
+      "addresses": {
+        "info": "   addresses\t\u003c[]Object\u003e",
+        "desc": "     List of addresses reachable to the node. Queried from cloud provider, if\n     available. More info:\n     https://kubernetes.io/docs/concepts/nodes/node/#addresses Note: This field\n     is declared as mergeable, but the merge key is not sufficiently unique,\n     which can cause data corruption when it is merged. Callers should instead\n     use a full-replacement patch. See http://pr.k8s.io/79391 for an example.\n",
+        "child": {
+          "address": {
+            "info": "   address\t\u003cstring\u003e -required-",
+            "desc": "     The node address.\n"
+          },
+          "type": {
+            "info": "   type\t\u003cstring\u003e -required-",
+            "desc": "     Node address type, one of Hostname, ExternalIP or InternalIP.\n"
+          }
+        }
+      },
+      "allocatable": {
+        "info": "   allocatable\t\u003cmap[string]string\u003e",
+        "desc": "     Allocatable represents the resources of a node that are available for\n     scheduling. Defaults to Capacity.\n"
+      },
+      "capacity": {
+        "info": "   capacity\t\u003cmap[string]string\u003e",
+        "desc": "     Capacity represents the total resources of a node. More info:\n     https://kubernetes.io/docs/concepts/storage/persistent-volumes#capacity\n"
+      },
+      "conditions": {
+        "info": "   conditions\t\u003c[]Object\u003e",
+        "desc": "     Conditions is an array of current observed node conditions. More info:\n     https://kubernetes.io/docs/concepts/nodes/node/#condition\n",
+        "child": {
+          "lastHeartbeatTime": {
+            "info": "   lastHeartbeatTime\t\u003cstring\u003e",
+            "desc": "     Last time we got an update on a given condition.\n"
+          },
+          "lastTransitionTime": {
+            "info": "   lastTransitionTime\t\u003cstring\u003e",
+            "desc": "     Last time the condition transit from one status to another.\n"
+          },
+          "message": {
+            "info": "   message\t\u003cstring\u003e",
+            "desc": "     Human readable message indicating details about last transition.\n"
+          },
+          "reason": {
+            "info": "   reason\t\u003cstring\u003e",
+            "desc": ""
+          },
+          "status": {
+            "info": "   status\t\u003cstring\u003e -required-",
+            "desc": "     Status of the condition, one of True, False, Unknown.\n"
+          },
+          "type": {
+            "info": "   type\t\u003cstring\u003e -required-",
+            "desc": "     Type of node condition.\n"
+          }
+        }
+      },
+      "config": {
+        "info": "   config\t\u003cObject\u003e",
+        "desc": "     Status of the config assigned to the node via the dynamic Kubelet config\n     feature.\n",
+        "child": {
+          "active": {
+            "info": "   active\t\u003cObject\u003e",
+            "desc": "     Active reports the checkpointed config the node is actively using. Active\n     will represent either the current version of the Assigned config, or the\n     current LastKnownGood config, depending on whether attempting to use the\n     Assigned config results in an error.\n",
+            "child": {
+              "configMap": {
+                "info": "   configMap\t\u003cObject\u003e",
+                "desc": "     ConfigMap is a reference to a Node\u0027s ConfigMap\n",
+                "child": {
+                  "kubeletConfigKey": {
+                    "info": "   kubeletConfigKey\t\u003cstring\u003e -required-",
+                    "desc": "     KubeletConfigKey declares which key of the referenced ConfigMap corresponds\n     to the KubeletConfiguration structure This field is required in all cases.\n"
+                  },
+                  "name": {
+                    "info": "   name\t\u003cstring\u003e -required-",
+                    "desc": "     Name is the metadata.name of the referenced ConfigMap. This field is\n     required in all cases.\n"
+                  },
+                  "namespace": {
+                    "info": "   namespace\t\u003cstring\u003e -required-",
+                    "desc": "     Namespace is the metadata.namespace of the referenced ConfigMap. This field\n     is required in all cases.\n"
+                  },
+                  "resourceVersion": {
+                    "info": "   resourceVersion\t\u003cstring\u003e",
+                    "desc": "     ResourceVersion is the metadata.ResourceVersion of the referenced\n     ConfigMap. This field is forbidden in Node.Spec, and required in\n     Node.Status.\n"
+                  },
+                  "uid": {
+                    "info": "   uid\t\u003cstring\u003e",
+                    "desc": "     UID is the metadata.UID of the referenced ConfigMap. This field is\n     forbidden in Node.Spec, and required in Node.Status.\n"
+                  }
+                }
+              }
+            }
+          },
+          "assigned": {
+            "info": "   assigned\t\u003cObject\u003e",
+            "desc": "     Assigned reports the checkpointed config the node will try to use. When\n     Node.Spec.ConfigSource is updated, the node checkpoints the associated\n     config payload to local disk, along with a record indicating intended\n     config. The node refers to this record to choose its config checkpoint, and\n     reports this record in Assigned. Assigned only updates in the status after\n     the record has been checkpointed to disk. When the Kubelet is restarted, it\n     tries to make the Assigned config the Active config by loading and\n     validating the checkpointed payload identified by Assigned.\n",
+            "child": {
+              "configMap": {
+                "info": "   configMap\t\u003cObject\u003e",
+                "desc": "     ConfigMap is a reference to a Node\u0027s ConfigMap\n",
+                "child": {
+                  "kubeletConfigKey": {
+                    "info": "   kubeletConfigKey\t\u003cstring\u003e -required-",
+                    "desc": "     KubeletConfigKey declares which key of the referenced ConfigMap corresponds\n     to the KubeletConfiguration structure This field is required in all cases.\n"
+                  },
+                  "name": {
+                    "info": "   name\t\u003cstring\u003e -required-",
+                    "desc": "     Name is the metadata.name of the referenced ConfigMap. This field is\n     required in all cases.\n"
+                  },
+                  "namespace": {
+                    "info": "   namespace\t\u003cstring\u003e -required-",
+                    "desc": "     Namespace is the metadata.namespace of the referenced ConfigMap. This field\n     is required in all cases.\n"
+                  },
+                  "resourceVersion": {
+                    "info": "   resourceVersion\t\u003cstring\u003e",
+                    "desc": "     ResourceVersion is the metadata.ResourceVersion of the referenced\n     ConfigMap. This field is forbidden in Node.Spec, and required in\n     Node.Status.\n"
+                  },
+                  "uid": {
+                    "info": "   uid\t\u003cstring\u003e",
+                    "desc": "     UID is the metadata.UID of the referenced ConfigMap. This field is\n     forbidden in Node.Spec, and required in Node.Status.\n"
+                  }
+                }
+              }
+            }
+          },
+          "error": {
+            "info": "   error\t\u003cstring\u003e",
+            "desc": "     Error describes any problems reconciling the Spec.ConfigSource to the\n     Active config. Errors may occur, for example, attempting to checkpoint\n     Spec.ConfigSource to the local Assigned record, attempting to checkpoint\n     the payload associated with Spec.ConfigSource, attempting to load or\n     validate the Assigned config, etc. Errors may occur at different points\n     while syncing config. Earlier errors (e.g. download or checkpointing\n     errors) will not result in a rollback to LastKnownGood, and may resolve\n     across Kubelet retries. Later errors (e.g. loading or validating a\n     checkpointed config) will result in a rollback to LastKnownGood. In the\n     latter case, it is usually possible to resolve the error by fixing the\n     config assigned in Spec.ConfigSource. You can find additional information\n     for debugging by searching the error message in the Kubelet log. Error is a\n     human-readable description of the error state; machines can check whether\n     or not Error is empty, but should not rely on the stability of the Error\n     text across Kubelet versions.\n"
+          },
+          "lastKnownGood": {
+            "info": "   lastKnownGood\t\u003cObject\u003e",
+            "desc": "     LastKnownGood reports the checkpointed config the node will fall back to\n     when it encounters an error attempting to use the Assigned config. The\n     Assigned config becomes the LastKnownGood config when the node determines\n     that the Assigned config is stable and correct. This is currently\n     implemented as a 10-minute soak period starting when the local record of\n     Assigned config is updated. If the Assigned config is Active at the end of\n     this period, it becomes the LastKnownGood. Note that if Spec.ConfigSource\n     is reset to nil (use local defaults), the LastKnownGood is also immediately\n     reset to nil, because the local default config is always assumed good. You\n     should not make assumptions about the node\u0027s method of determining config\n     stability and correctness, as this may change or become configurable in the\n     future.\n",
+            "child": {
+              "configMap": {
+                "info": "   configMap\t\u003cObject\u003e",
+                "desc": "     ConfigMap is a reference to a Node\u0027s ConfigMap\n",
+                "child": {
+                  "kubeletConfigKey": {
+                    "info": "   kubeletConfigKey\t\u003cstring\u003e -required-",
+                    "desc": "     KubeletConfigKey declares which key of the referenced ConfigMap corresponds\n     to the KubeletConfiguration structure This field is required in all cases.\n"
+                  },
+                  "name": {
+                    "info": "   name\t\u003cstring\u003e -required-",
+                    "desc": "     Name is the metadata.name of the referenced ConfigMap. This field is\n     required in all cases.\n"
+                  },
+                  "namespace": {
+                    "info": "   namespace\t\u003cstring\u003e -required-",
+                    "desc": "     Namespace is the metadata.namespace of the referenced ConfigMap. This field\n     is required in all cases.\n"
+                  },
+                  "resourceVersion": {
+                    "info": "   resourceVersion\t\u003cstring\u003e",
+                    "desc": "     ResourceVersion is the metadata.ResourceVersion of the referenced\n     ConfigMap. This field is forbidden in Node.Spec, and required in\n     Node.Status.\n"
+                  },
+                  "uid": {
+                    "info": "   uid\t\u003cstring\u003e",
+                    "desc": "     UID is the metadata.UID of the referenced ConfigMap. This field is\n     forbidden in Node.Spec, and required in Node.Status.\n"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "daemonEndpoints": {
+        "info": "   daemonEndpoints\t\u003cObject\u003e",
+        "desc": "     Endpoints of daemons running on the Node.\n",
+        "child": {
+          "kubeletEndpoint": {
+            "info": "   kubeletEndpoint\t\u003cObject\u003e",
+            "desc": "     Endpoint on which Kubelet is listening.\n",
+            "child": {
+              "Port": {
+                "info": "   Port\t\u003cinteger\u003e -required-",
+                "desc": "     Port number of the given endpoint.\n"
+              }
+            }
+          }
+        }
+      },
+      "images": {
+        "info": "   images\t\u003c[]Object\u003e",
+        "desc": "     List of container images on this node\n",
+        "child": {
+          "names": {
+            "info": "   names\t\u003c[]string\u003e",
+            "desc": "     Names by which this image is known. e.g. [\"k8s.gcr.io/hyperkube:v1.0.7\",\n"
+          },
+          "sizeBytes": {
+            "info": "   sizeBytes\t\u003cinteger\u003e",
+            "desc": "     The size of the image in bytes.\n"
+          }
+        }
+      },
+      "nodeInfo": {
+        "info": "   nodeInfo\t\u003cObject\u003e",
+        "desc": "     Set of ids/uuids to uniquely identify the node. More info:\n     https://kubernetes.io/docs/concepts/nodes/node/#info\n",
+        "child": {
+          "architecture": {
+            "info": "   architecture\t\u003cstring\u003e -required-",
+            "desc": "     The Architecture reported by the node\n"
+          },
+          "bootID": {
+            "info": "   bootID\t\u003cstring\u003e -required-",
+            "desc": "     Boot ID reported by the node.\n"
+          },
+          "containerRuntimeVersion": {
+            "info": "   containerRuntimeVersion\t\u003cstring\u003e -required-",
+            "desc": "     ContainerRuntime Version reported by the node through runtime remote API\n"
+          },
+          "kernelVersion": {
+            "info": "   kernelVersion\t\u003cstring\u003e -required-",
+            "desc": "     Kernel Version reported by the node from \u0027uname -r\u0027 (e.g.\n"
+          },
+          "kubeProxyVersion": {
+            "info": "   kubeProxyVersion\t\u003cstring\u003e -required-",
+            "desc": "     KubeProxy Version reported by the node.\n"
+          },
+          "kubeletVersion": {
+            "info": "   kubeletVersion\t\u003cstring\u003e -required-",
+            "desc": "     Kubelet Version reported by the node.\n"
+          },
+          "machineID": {
+            "info": "   machineID\t\u003cstring\u003e -required-",
+            "desc": "     MachineID reported by the node. For unique machine identification in the\n     cluster this field is preferred. Learn more from man(5) machine-id:\n     http://man7.org/linux/man-pages/man5/machine-id.5.html\n"
+          },
+          "operatingSystem": {
+            "info": "   operatingSystem\t\u003cstring\u003e -required-",
+            "desc": "     The Operating System reported by the node\n"
+          },
+          "osImage": {
+            "info": "   osImage\t\u003cstring\u003e -required-",
+            "desc": "     OS Image reported by the node from /etc/os-release (e.g. Debian GNU/Linux 7\n"
+          },
+          "systemUUID": {
+            "info": "   systemUUID\t\u003cstring\u003e -required-",
+            "desc": "     SystemUUID reported by the node. For unique machine identification\n     MachineID is preferred. This field is specific to Red Hat hosts\n     https://access.redhat.com/documentation/en-us/red_hat_subscription_management/1/html/rhsm/uuid\n"
+          }
+        }
+      },
+      "phase": {
+        "info": "   phase\t\u003cstring\u003e",
+        "desc": "     NodePhase is the recently observed lifecycle phase of the node. More info:\n     https://kubernetes.io/docs/concepts/nodes/node/#phase The field is never\n     populated, and now is deprecated.\n"
+      },
+      "volumesAttached": {
+        "info": "   volumesAttached\t\u003c[]Object\u003e",
+        "desc": "     List of volumes that are attached to the node.\n",
+        "child": {
+          "devicePath": {
+            "info": "   devicePath\t\u003cstring\u003e -required-",
+            "desc": "     DevicePath represents the device path where the volume should be available\n"
+          },
+          "name": {
+            "info": "   name\t\u003cstring\u003e -required-",
+            "desc": "     Name of the attached volume\n"
+          }
+        }
+      },
+      "volumesInUse": {
+        "info": "   volumesInUse\t\u003c[]string\u003e",
+        "desc": "     List of attachable volumes in use (mounted) by the node.\n"
+      }
+    }
+  }
+}
